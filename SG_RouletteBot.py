@@ -285,6 +285,8 @@ constants = SG_Messages.MiscConstants
 
 # set our subreddit so that we can do mod stuff like edit flairs
 subreddit = reddit.subreddit('solutiongambling')
+post_title = SG_Messages.PostBodies.ROULETTE_POST_TITLE
+post_body = SG_Messages.PostBodies.ROULETTE_POST_BODY
 
 while True:
     bot_loop()

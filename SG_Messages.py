@@ -356,3 +356,137 @@ Good luck everyone!
 *Note: In the event that you place multiple bets rapidly, the __most recently placed__ wager will be processed first. In other words, wagers will be processed in the order __opposite__ in which they were placed.*"""
 
 
+	ROULETTE_POST_TITLE = "Roulette Megathread"
+	ROULETTE_POST_BODY = """This is a simplified version of classic roulette! 
+
+In this thread, after your wager is placed, a simulated roulette wheel will be spun, and you will be paid out according to where the ball lands! 
+
+Make a wager by posting a top-level comment of the form:
+
+`wager {NUMBER} {BET_TYPE}`
+
+where the number is the amount you want to bet (0 < x <= balance), and the {BET_TYPE} is one of the types of bets in the table below (and if you're betting singles, it should be a number 0 <= x <= 36).
+
+Some example bets:
+
+    wager 100 red
+    wager 100 even
+    wager 200 13
+    wager 100 0
+
+This game pays out as follows:
+
+Bet| Payout 
+---------|----------
+Even / Odd | __2 : 1__
+Red / Black | __2 : 1__
+Singles (0-36) | __37 : 1__
+
+You can include multiple bets in a single spin as well! Just separate them by a single line break when you're typing them - after the comment posts it will look like it's all on one line, but the dealer will be able to read it! **And it must be only one line break!** The comment as you're typing it should look like the example above, even though in the preview and when it's posted it will be all on one line.
+
+Last thing - if you do place multiple bets in the same comment, it behaves like you would place them in a casino - you must have enough in your balance to place all of your bets initially! The total of all of your bets must be less than your bankroll.
+
+Good luck everyone!
+
+## __The maximum bet for this game is 100,000__
+
+*Note: In the event that you place multiple bets rapidly, the __most recently placed__ wager will be processed first. In other words, wagers will be processed in the order __opposite__ in which they were placed.*"""
+	
+	DICEROLL_POST_TITLE = "3-6-9 Dice Roll Megathread"
+	DICEROLL_POST_BODY = """
+	Hello! This thread will be the place to play a dice game called 3-6-9. The rules are simple:
+
+* After a wager is made, 2 die rolls will be simulated and their results totaled
+* If the total is equal to **3**, **6** or **9**, then you win!
+
+Make a wager by posting a top-level comment of the form:
+
+`wager {NUMBER}`
+
+where the number is the amount you want to bet (0 < x <= balance).
+
+This game pays out __3 : 1__!
+
+Good luck everyone!
+
+## __The maximum bet for this game is 150,000__
+
+*Note: In the event that you place multiple bets rapidly, the __most recently placed__ wager will be processed first. In other words, wagers will be processed in the order __opposite__ in which they were placed.*"""
+	
+	CASINOWAR_POST_TITLE = "HIGH-LIMIT Casino War Thread"
+	CASINOWAR_POST_BODY = """
+	Welcome to the High-limit Casino War game! Here's how this game works:
+
+---
+
+You will make a wager by posting a top-level comment of the form:
+
+`wager {SIZE}`
+
+where the *size* is the amount you want to bet (shown at the bottom of the OP)
+
+&nbsp;
+
+After your bet is accepted, one card will be dealt to each the player and the dealer. If the player's card is higher, the player wins. If the dealer's is higher, the player loses.
+
+__In the event of a tie,__ the player and dealer to go war! This means that one card is dealt to each again. Same as before, the higher card wins. If the war is tied, the player will win a bonus higher payout!
+
+---
+
+This game pays out as follows:
+
+Situation| Payout 
+---------|----------
+Player **wins** during first deal | __2 : 1__
+Player **wins** after war | __1.5 : 1__
+Player **ties** after war | __3 : 1__
+
+---
+
+Here are the valid bets and their values:
+
+* Small ('wager small') :**1 million**
+* Mid ('wager mid') : **20 million**
+* Big ('wager big') : **100 million**
+
+&nbsp;
+
+Good luck everyone!
+
+*Note: In the event that you place multiple bets rapidly, the __most recently placed__ wager will be processed first. In other words, wagers will be processed in the order __opposite__ in which they were placed.*"""
+	
+	KENO_POST_TITLE = "Keno Megathread"
+	KENO_POST_BODY = """This is a simplified version of a game called Keno, and it's kind of like a lottery! Here's how it works:
+
+---
+
+Make a wager by posting a top-level comment of the form:
+
+`wager {NUMBER}`
+
+where the number is the amount you want to bet (0 < x <= balance).
+
+&nbsp;
+
+You will be assigned ***8*** random numbers in the range of 1-60. The dealer will then choose ***15*** random numbers on that same range. Both of your lists of numbers will be compared, and if you match enough numbers (this is called a **catch**), you win!
+
+---
+
+This game pays out as follows:
+
+No. of Catches| Payout 
+---------|----------
+0 or 1| __0__
+2 | __2 : 1__
+3 | __5 : 1__
+4 | __10 : 1__
+5 | __20 : 1__
+6 | __75 : 1__
+7 | __2,000 : 1__
+8 | __25,000 : 1__
+
+Good luck everyone!
+
+## __The maximum bet for this game is 100,000__
+
+*Note: In the event that you place multiple bets rapidly, the __most recently placed__ wager will be processed first. In other words, wagers will be processed in the order __opposite__ in which they were placed.*"""

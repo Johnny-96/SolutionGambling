@@ -154,6 +154,8 @@ card = deuces.Card()
 
 # set our subreddit so that we can do mod stuff like edit flairs
 subreddit = reddit.subreddit('solutiongambling')
+post_title = SG_Messages.PostBodies.CASINOWAR_POST_TITLE
+post_body = SG_Messages.PostBodies.CASINOWAR_POST_BODY
 
 def bot_loop():
     # get the Submission object for our war thread
