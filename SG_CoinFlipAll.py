@@ -6,6 +6,7 @@ import time
 import ConfigParser
 import random
 import SG_Utils
+import SG_Messages
 
 config = ConfigParser.ConfigParser()
 config.read("settings.config")

@@ -6,6 +6,7 @@ import time
 import deuces
 import ConfigParser
 import SG_Utils
+import SG_ThreadManager
 
 config = ConfigParser.ConfigParser()
 config.read("settings.config")
@@ -127,6 +128,9 @@ error_messages = SG_Messages.ErrorMessages
 reply_messages = SG_Messages.ReplyMessages
 constants = SG_Messages.MiscConstants
 
+post_title = SG_Messages.PostBodies.POKER_POST_TITLE
+post_body = SG_Messages.PostBodies.POKER_POST_BODY
+
 # initialize the classes we need to run the poker game
 card = deuces.Card()
 evaluator = deuces.Evaluator()
@@ -135,8 +139,16 @@ evaluator = deuces.Evaluator()
 subreddit = reddit.subreddit('solutiongambling')
 
 def bot_loop():
+    threadID = config.get(config_header, "thread_id") 
     # get the Submission object for our poker thread
-    submission = reddit.submission(id='6lrf53')
+    submission = SG_ThreadManager.GetCurrentThread(threadID)
+    if (submission is None):
+        submission = SG_ThreadManager.CreateNewThread(subreddit, post_title, post_body)
+        submissionID = submission.id
+        SG_ThreadManager.HandleOldThread(threadID, submissionID)
+        config.set(config_header, "thread_id", submissionID)
+        with open('settings.config', 'w+') as configfile:
+            config.write(configfile) # change config id
 
     submission.comment_sort = 'new'
     # submission.comments.replace_more(limit=0)

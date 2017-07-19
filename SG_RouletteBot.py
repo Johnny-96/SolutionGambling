@@ -149,7 +149,15 @@ def determine_outcome(wager, roulette_result):
 
 def bot_loop():
     # get the Submission object for our poker thread
-    submission = reddit.submission(id='6k6vbj')
+    threadID = config.get(config_header, "thread_id") 
+    submission = SG_ThreadManager.GetCurrentThread(threadID)
+    if (submission is None):
+        submission = SG_ThreadManager.CreateNewThread(subreddit, post_title, post_body)
+        submissionID = submission.id
+        SG_ThreadManager.HandleOldThread(threadID, submissionID)
+        config.set(config_header, "thread_id", submissionID)
+        with open('settings.config', 'w+') as configfile:
+            config.write(configfile) # change config id
 
     submission.comment_sort = 'new'
     submission.comments.replace_more(limit=0)

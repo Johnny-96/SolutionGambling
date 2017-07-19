@@ -324,3 +324,35 @@ class MiscConstants:
         "lvl6" : "High Roller: ",
         "lvl7" : "Whale: ",
     }
+
+class PostBodies:
+    POKER_POST_TITLE = "Poker Megathread"
+    POKER_POST_BODY = """If you want to bet on some poker hands, this is the place to be! In this thread, after your wager is placed, you'll be dealt a 2-card poker hand, and the dealer will put 5 cards on the board (just like Texas Hold'em). This hand will be evaluated, and you will be paid out according to the type of hand you were dealt. 
+
+Make a wager by posting a top-level comment of the form:
+
+`wager {NUMBER}`
+
+where the number is the amount you want to bet (0 < x <= balance).
+
+This game pays out as follows:
+
+Hand | Payout 
+---------|----------
+No pair OR One pair | __0__
+Two pair | __2 : 1__
+Three of a Kind | __5 : 1__
+Straight | __10 : 1__
+Flush | __25 : 1__
+Full House | __55 : 1__
+Four of a Kind | __600 : 1__
+Straight Flush | __4,000 : 1__
+Royal Flush | __45,000 : 1__
+
+Good luck everyone!
+
+## __The maximum bet for this game is 50,000__
+
+*Note: In the event that you place multiple bets rapidly, the __most recently placed__ wager will be processed first. In other words, wagers will be processed in the order __opposite__ in which they were placed.*"""
+
+
