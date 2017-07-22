@@ -118,6 +118,8 @@ def BeginGame(comment):
         comment.reply(DealerHandReply(flop, dealerHand))
 
 def Blackjack(comment, flop, dealer_hand):
+    if CalculateHandValue(dealer_hand) < 10:
+        return False
     blackjack_hand = dealer_hand[:]
     blackjack_hand.append(DealCard(flop, blackjack_hand))
     blackjack_hand_value = CalculateHandValue(blackjack_hand)
