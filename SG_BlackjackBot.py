@@ -92,9 +92,6 @@ def IsGameStarter(comment, name_of_replier):
     # refreshes prevent too many network calls in the event of a deeply nested comment
     while not ancestor.is_root:
         ancestor = ancestor.parent()
-        #if refresh_counter % 9 == 0:
-        #    ancestor.refresh()
-        #refresh_counter += 1
     return ancestor.author.name.lower() == name_of_replier.lower()
 
 # Main game flow control - what action should the bot take based on the comment?
