@@ -56,7 +56,7 @@ def DealCard(player_hand, dealer_hand):
     if new_card not in player_hand and new_card not in dealer_hand:
         return new_card
     else:
-        DealCard(player_hand, dealer_hand)
+        return DealCard(player_hand, dealer_hand)
 
 # Convert card to numeral
 def CardToNumeric(cardString):
