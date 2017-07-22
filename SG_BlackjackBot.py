@@ -60,9 +60,6 @@ def DealCard(player_hand, dealer_hand):
 
 # Convert card to numeral
 def CardToNumeric(cardString):
-    if cardString is None:
-        print 'cardstring is none! ', cardString
-    print 'cardString ', cardString
     cardValue = cardString.strip().split(' ')[0]
     if (cardValue == 'A'):
         return 11
@@ -75,9 +72,7 @@ def CardToNumeric(cardString):
 # Get the value of the current hand
 def CalculateHandValue(hand):
     sum = 0
-    print 'calculating hand value ', hand
     for card in hand:
-        print 'card is ', card
         sum += CardToNumeric(card)
     return sum
 
@@ -118,8 +113,21 @@ def BeginGame(comment):
     flop = [DealCard((), ())]
     flop.append(DealCard(flop, ()))
     dealerHand = [DealCard(flop, ())]
-    'BEGIN GAME DEALERHAND ', dealerHand
-    comment.reply(DealerHandReply(flop, dealerHand))
+    # did the dealer win on the flop?
+    if not Blackjack(comment, flop, dealerHand):
+        comment.reply(DealerHandReply(flop, dealerHand))
+
+def Blackjack(comment, flop, dealer_hand):
+    blackjack_hand = dealer_hand[:]
+    blackjack_hand.append(DealCard(flop, blackjack_hand))
+    blackjack_hand_value = CalculateHandValue(blackjack_hand)
+    flop_value = CalculateHandValue(flop)
+    if blackjack_hand_value == 21:
+        GameResultReply(comment, flop, blackjack_hand, flop_value, 21, '**Blackjack!**')
+        return True
+    elif blackjack_hand_value == 21 and flop_value == 21:
+        GameResultReply(comment, flop, blackjack_hand, 21, 21, 'Game push')
+        return True
 
 # determine if a hand is holding an ace
 def NumAcesInHand(hand):
