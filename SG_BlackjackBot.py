@@ -36,7 +36,7 @@ reddit = praw.Reddit(
 def HandToString(hand):
     hand_string = ''
     for i, card in enumerate(hand):
-        if i != len(hand) - 1:
+        if i < len(hand) - 1:
             hand_string += hand[i] + ', '
         else:
             hand_string += hand[i]
@@ -118,16 +118,16 @@ def BeginGame(comment):
     flop = [DealCard((), ())]
     flop.append(DealCard(flop, ()))
     dealerHand = [DealCard(flop, ())]
+    'BEGIN GAME DEALERHAND ', dealerHand
     comment.reply(DealerHandReply(flop, dealerHand))
 
 # determine if a hand is holding an ace
-def HasAce(hand):
+def NumAcesInHand(hand):
+    numAces = 0
     for card in hand:
         if CardToNumeric(card) == 11:
-            print 'player holds ace'
-            return True
-    print 'player doesn\'t have an ace'
-    return False
+            numAces = numAces + 1 
+    return numAces
 
 def PlayerHit(comment):
     # Dealer must hit until > 17, at which time hand is compared to player
@@ -145,8 +145,12 @@ def PlayerHit(comment):
     player_hand.append(DealCard(player_hand, dealer_hand))
     handValue = CalculateHandValue(player_hand)
     ### Perform check to see if player is over 21 - if player has ace, subtract 10 from hand value
-    if HasAce(player_hand) and handValue > 21:
+    num_player_aces = NumAcesInHand(player_hand)
+    while num_player_aces > 0 and handValue > 21:
         handValue = handValue - 10
+        num_player_aces = num_player_aces - 1
+    #if HasAce(player_hand) and handValue > 21:
+    #    handValue = handValue - 10
     if handValue <= 21:
         comment.reply(DealerHandReply(player_hand, dealer_hand))
     if handValue > 21:
