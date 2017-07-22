@@ -51,7 +51,7 @@ def DealerHandReply(player_hand, dealer_hand):
 
 def DealCard(player_hand, dealer_hand):
     # Deal a card
-    new_card = CARDS[random.randint(0, 12)] + ' ' + SUITS[random.randint(0, 3)]
+    new_card = str(CARDS[random.randint(0, 12)] + ' ' + SUITS[random.randint(0, 3)])
     # make sure new card doesn't already exist in the hand
     if new_card not in player_hand and new_card not in dealer_hand:
         return new_card
@@ -60,6 +60,9 @@ def DealCard(player_hand, dealer_hand):
 
 # Convert card to numeral
 def CardToNumeric(cardString):
+    if cardString is None:
+        print 'cardstring is none! ', cardString
+    print 'cardString ', cardString
     cardValue = cardString.strip().split(' ')[0]
     if (cardValue == 'A'):
         return 11
@@ -72,7 +75,9 @@ def CardToNumeric(cardString):
 # Get the value of the current hand
 def CalculateHandValue(hand):
     sum = 0
+    print 'calculating hand value ', hand
     for card in hand:
+        print 'card is ', card
         sum += CardToNumeric(card)
     return sum
 
@@ -115,6 +120,15 @@ def BeginGame(comment):
     dealerHand = [DealCard(flop, ())]
     comment.reply(DealerHandReply(flop, dealerHand))
 
+# determine if a hand is holding an ace
+def HasAce(hand):
+    for card in hand:
+        if CardToNumeric(card) == 11:
+            print 'player holds ace'
+            return True
+    print 'player doesn\'t have an ace'
+    return False
+
 def PlayerHit(comment):
     # Dealer must hit until > 17, at which time hand is compared to player
     dealer_comment = comment.parent()
@@ -130,11 +144,14 @@ def PlayerHit(comment):
     # deal player a new card
     player_hand.append(DealCard(player_hand, dealer_hand))
     handValue = CalculateHandValue(player_hand)
+    ### Perform check to see if player is over 21 - if player has ace, subtract 10 from hand value
+    if HasAce(player_hand) and handValue > 21:
+        handValue = handValue - 10
     if handValue <= 21:
         comment.reply(DealerHandReply(player_hand, dealer_hand))
     if handValue > 21:
-        result_string = "You busted!"
-        GameResultReply(comment, player_hand, dealer_hand, CalculateHandValue(player_hand), CalculateHandValue(dealer_hand), result_string) 
+        result_string = "**You busted!**"
+        GameResultReply(comment, player_hand, dealer_hand, handValue, CalculateHandValue(dealer_hand), result_string) 
 
 def PlayerStand(comment):
     # Dealer must hit until > 17, at which time hand is compared to player
@@ -158,15 +175,15 @@ def EvaluateHands(comment, player_hand, dealer_hand):
     dealer_hand_value = CalculateHandValue(dealer_hand)
     result_string = ''
     if player_hand_value > 21:
-        result_string = "You busted! Dealer wins!"
+        result_string = "You busted! **Dealer wins!**"
     elif dealer_hand_value > 21:
-        result_string = "Dealer busted! You win!"
+        result_string = "Dealer busted! **You win!**"
     elif player_hand_value > dealer_hand_value:
-        result_string="You win!"
+        result_string="**You win!**"
     elif dealer_hand_value > player_hand_value:
-        result_string = "Dealer wins!"
+        result_string = "**Dealer wins!**"
     elif dealer_hand_value == player_hand_value:
-        result_string = "Game push!"
+        result_string = "**Game push!**"
     GameResultReply(comment, player_hand, dealer_hand, player_hand_value, dealer_hand_value, result_string)
 
 def GameResultReply(comment, player_hand, dealer_hand, player_hand_value, dealer_hand_value, result_string):
