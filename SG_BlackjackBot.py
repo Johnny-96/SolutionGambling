@@ -81,7 +81,7 @@ def HasReply(comment):
     comment.refresh()
     replies = comment.replies
     for reply in replies:
-        if reply.author.name == username:
+        if reply.author.name.lower() == user.lower():
             return True
     return False
 
@@ -95,7 +95,7 @@ def IsGameStarter(comment, name_of_replier):
         #if refresh_counter % 9 == 0:
         #    ancestor.refresh()
         #refresh_counter += 1
-    return ancestor.author.name == name_of_replier
+    return ancestor.author.name.lower() == name_of_replier.lower()
 
 # Main game flow control - what action should the bot take based on the comment?
 def ProcessComment(comment):
