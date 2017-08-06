@@ -202,11 +202,11 @@ def PlayerStand(comment):
     while dealer_hand_value < 17:
         dealer_hand.append(DealCard(player_hand, dealer_hand))
         num_dealer_aces = NumAcesInHand(dealer_hand)
+        dealer_hand_value = CalculateHandValue(dealer_hand)
         # Make sure dealer doesn't bust if dealt an ace
         while num_dealer_aces > 0 and dealer_hand_value > 21:
             dealer_hand_value = dealer_hand_value - 10
             num_dealer_aces = num_dealer_aces - 1
-        #dealer_hand_value = CalculateHandValue(dealer_hand)
     # Hand value is over 17, evaluate
     EvaluateHands(comment, player_hand, dealer_hand)
 
