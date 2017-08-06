@@ -76,7 +76,7 @@ def CalculateHandValue(hand):
         sum += CardToNumeric(card)
     return sum
 
-# Has the dealer already replied?
+# Prevent dealer from replying to comments where user has already played hand
 def HasReply(comment):
     comment.refresh()
     replies = comment.replies
@@ -85,19 +85,38 @@ def HasReply(comment):
             return True
     return False
 
+
 # Is the person replying hit/stand the same person who began the game?
 def IsGameStarter(comment, name_of_replier):
     ancestor = comment
-    refresh_counter = 0
-    # refreshes prevent too many network calls in the event of a deeply nested comment
     while not ancestor.is_root:
         ancestor = ancestor.parent()
     return ancestor.author.name.lower() == name_of_replier.lower()
 
+def GetPlayerAction(comment):
+    player_action = comment.body.split(' ')[0].strip().lower()
+    if (player_action == 'wager' or player_action == 'hit' or player_action == 'stand'):
+        print 'player action successful split'
+        return player_action
+    # if it's none of the above, try taking the substring
+    stripped_comment = comment.body.strip()
+    player_action = stripped_comment[:2]
+    if player_action == 'hit':
+        print 'player action hit'
+        return player_action
+    player_action = stripped_comment[:5]
+    if player_action == 'wager' or player_action == 'stand':
+        print 'player action stand'
+        return player_action
+    return None
+
 # Main game flow control - what action should the bot take based on the comment?
 def ProcessComment(comment):
     # Parse first word of comment to see action
-    player_action = comment.body.split(' ')[0].strip().lower()
+    # player_action = comment.body.split(' ')[0].strip().lower()
+    player_action = GetPlayerAction(comment)
+    if (player_action == None):
+        return False
     if comment.is_root and player_action == 'wager' and not HasReply(comment):
         # Begin game
         BeginGame(comment)
@@ -126,9 +145,11 @@ def Blackjack(comment, flop, dealer_hand):
     flop_value = CalculateHandValue(flop)
     if blackjack_hand_value == 21:
         GameResultReply(comment, flop, blackjack_hand, flop_value, 21, '**Blackjack!**')
+        print 'dealer blackjack!'
         return True
     elif blackjack_hand_value == 21 and flop_value == 21:
         GameResultReply(comment, flop, blackjack_hand, 21, 21, 'Game push')
+        print 'game push!'
         return True
 
 # determine if a hand is holding an ace
@@ -180,6 +201,11 @@ def PlayerStand(comment):
     dealer_hand_value = CalculateHandValue(dealer_hand)
     while dealer_hand_value < 17:
         dealer_hand.append(DealCard(player_hand, dealer_hand))
+        num_dealer_aces = NumAcesInHand(dealer_hand)
+        # Make sure dealer doesn't bust if dealt an ace
+        while num_dealer_aces > 0 and dealer_hand_value > 21:
+            dealer_hand_value = dealer_hand_value - 10
+            num_dealer_aces = num_dealer_aces - 1
         dealer_hand_value = CalculateHandValue(dealer_hand)
     # Hand value is over 17, evaluate
     EvaluateHands(comment, player_hand, dealer_hand)
